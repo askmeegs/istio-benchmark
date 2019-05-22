@@ -66,49 +66,37 @@ watch -n 1 kubectl get pods -n emojivoto
 
 ### My results on Istio 1.1.7 
 
-### `benchmark.sh 1 1m 10`  (1 app, 1 minute, 10 RPS) (corrected)
+###  `benchmark.sh 1 30m 600` 
+
+*note* - I added the `--u_latency` latency arg to the [wrk2](https://github.com/giltene/wrk2) loadgen, to print both the corrected and uncorrected results.  
+
+`m = minutes, ms = milliseconds` 
+
+
+**Corrected** (for [coordinated omission](https://github.com/giltene/wrk2))
 
 ```
   Latency Distribution (HdrHistogram - Recorded Latency)
- 50.000%    7.18ms
- 75.000%    7.95ms
- 90.000%    8.62ms
- 99.000%   10.81ms
- 99.900%   19.02ms
- 99.990%   19.02ms
- 99.999%   19.02ms
-100.000%   19.02ms
+ 50.000%    8.65m
+ 75.000%   13.81m
+ 90.000%   17.11m
+ 99.000%   19.29m
+ 99.900%   19.50m
+ 99.990%   19.52m
+ 99.999%   19.54m
+100.000%   19.54m
 ```
 
-### `benchmark.sh 1 5m 600` 
-
-```
-  Latency Distribution (HdrHistogram - Recorded Latency)
- 50.000%    1.80m
- 75.000%    2.65m
- 90.000%    3.16m
- 99.000%    3.48m
- 99.900%    3.51m
- 99.990%    3.51m
- 99.999%    3.51m
-100.000%    3.51m
-```
-
-###  `benchmark.sh 1 5m 600` - **uncorrected** 
-
-*note* - uncorrected means I added the `--u_latency` latency arg to the [wrk2](https://github.com/giltene/wrk2) loadgen, thus not correcting for Coordinated Omission.   
+**Uncorrected** 
 
 ```
   Latency Distribution (HdrHistogram - Uncorrected Latency (measured without taking delayed starts into account))
- 50.000%    3.68ms
- 75.000%    4.32ms
- 90.000%    5.03ms
- 99.000%    9.49ms
- 99.900%   14.73ms
- 99.990%   20.82ms
- 99.999%   32.74ms
-100.000%   37.95ms
+ 50.000%    4.08ms
+ 75.000%    4.73ms
+ 90.000%    5.53ms
+ 99.000%   11.69ms
+ 99.900%   16.42ms
+ 99.990%   23.49ms
+ 99.999%   30.69ms
+100.000%   37.57ms
 ```
-
-###  `benchmark.sh 1 30 600` - **uncorrected** 
-
