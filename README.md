@@ -66,7 +66,7 @@ watch -n 1 kubectl get pods -n emojivoto
 
 ### My results on Istio 1.1.7 
 
-### `benchmark.sh 1 1m 10`  (1 app, 1 minute, 10 RPS)
+### `benchmark.sh 1 1m 10`  (1 app, 1 minute, 10 RPS) (corrected)
 
 ```
   Latency Distribution (HdrHistogram - Recorded Latency)
@@ -80,5 +80,35 @@ watch -n 1 kubectl get pods -n emojivoto
 100.000%   19.02ms
 ```
 
-### `benchmark.sh 1 5m 500`  (1 app, 5 minutes, 600 RPS)
+### `benchmark.sh 1 5m 600` 
+
+```
+  Latency Distribution (HdrHistogram - Recorded Latency)
+ 50.000%    1.80m
+ 75.000%    2.65m
+ 90.000%    3.16m
+ 99.000%    3.48m
+ 99.900%    3.51m
+ 99.990%    3.51m
+ 99.999%    3.51m
+100.000%    3.51m
+```
+
+###  `benchmark.sh 1 5m 600` - **uncorrected** 
+
+*note* - uncorrected means I added the `--u_latency` latency arg to the [wrk2](https://github.com/giltene/wrk2) loadgen, thus not correcting for Coordinated Omission.   
+
+```
+  Latency Distribution (HdrHistogram - Uncorrected Latency (measured without taking delayed starts into account))
+ 50.000%    3.68ms
+ 75.000%    4.32ms
+ 90.000%    5.03ms
+ 99.000%    9.49ms
+ 99.900%   14.73ms
+ 99.990%   20.82ms
+ 99.999%   32.74ms
+100.000%   37.95ms
+```
+
+###  `benchmark.sh 1 30 600` - **uncorrected** 
 
